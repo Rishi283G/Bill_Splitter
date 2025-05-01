@@ -25,8 +25,15 @@ generateBill.addEventListener(`click`, () => {
     prompt(`Please enter a valid Number`);
   }
 });
-if ((myBill.textContent = `` || NaN)) {
-  prompt(`Please enter a valid Number`);
+// if (!billAmount || !countOfPeople) {
+//   alert('Please enter valid inputs.');
+//   return;}
+function updateGenerateButtonstate() {
+  if (numberOfPeople.value && tipPercent) {
+    generateBill.disabled = false;
+  } else {
+    generateBill.disabled = true;
+  }
 }
 
 tipContainer.addEventListener("click", (e) => {
@@ -37,30 +44,18 @@ tipContainer.addEventListener("click", (e) => {
     console.log(e.target.classList.add(`selected`));
     tipPercent = parseInt(e.target.innerText);
     customTip.value = "";
+    updateGenerateButtonstate();
   }
-  numberOfPeople.addEventListener(`input`, () => {
-    if (numberOfPeople & tipPercent.valueOf) {
-      generateBill.disabled = false;
-    } else {
-      generateBill.disabled = true;
-    }
-  });
-  if (tipPercent && numberOfPeople.value) {
-    generateBill.disabled = false;
-  } else {
-    generateBill.disabled = true;
-  }
+});
+numberOfPeople.addEventListener(`input`, () => {
+  updateGenerateButtonstate();
 });
 
 customTip.addEventListener("input", () => {
   tipPercent = parseInt(customTip.value);
   [...tipContainer.children].forEach((tip) => {
     tip.classList.remove(`selected`);
-    if (tipPercent && numberOfPeople.value) {
-      generateBill.disabled = false;
-    } else {
-      generateBill.disabled = true;
-    }
+    updateGenerateButtonstate();
   });
 
   numberOfPeople.addEventListener(`input`, () => {
